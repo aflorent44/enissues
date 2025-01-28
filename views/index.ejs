@@ -13,8 +13,8 @@
       <ul class="mb-6 space-y-2">
         <% if (messages.length > 0) { %> <% messages.forEach(function(message) { %>
         <li class="border-b border-gray-200 py-2">
-          <span class="font-bold"><%= message.message %></span> - <%= message.auteur
-          %>
+          <span class="font-bold"><%= message.titre %></span> - <%= message.auteur
+          %> - <%= message.etat %>  - <%= message.description %> - <%= message.date_creation %>
         </li>
         <% }); %> <% } else { %>
         <li>Aucun message soumis pour le moment.</li>
@@ -24,24 +24,61 @@
         Ajouter un message
       </h1>
 
-      <form action="/cities/create" method="POST" class="space-y-6">
+      <form action="/message/create" method="POST" class="space-y-6">
         <div>
-          <label for="message" class="block text-lg font-medium text-gray-700"
-            >Message :</label
+          <label for="titre" class="block text-lg font-medium text-gray-700"
+            >Titre :</label>
+          <input
+            type="text"
+            id="titre"
+            name="titre"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            placeholder="Entrez le titre de votre message"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="description" class="block text-lg font-medium text-gray-700"
+            >Votre message :</label
           >
           <input
             type="text"
-            id="message"
-            name="message"
+            id="description"
+            name="description"
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            placeholder="Entrez votre message"
+            placeholder="Entrez votre pseudo"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="etat" class="block text-lg font-medium text-gray-700"
+            >Etat du problème :</label
+          >
+          <label for="en-cours" class="block text-sm font-small text-gray-700">En cours</label>
+          <input
+            type="radio"
+            id="en-cours"
+            name="etat"
+            value="En cours"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            required
+          />
+        <label for="resolu" class="block text-sm font-small text-gray-700">Résolu</label>
+          <input
+            type="radio"
+            id="resolu"
+            name="etat"
+            value="Résolu"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             required
           />
         </div>
 
         <div>
           <label for="auteur" class="block text-lg font-medium text-gray-700"
-            >Votre pseudo</label
+            >Votre pseudo :</label
           >
           <input
             type="text"

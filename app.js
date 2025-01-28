@@ -13,9 +13,11 @@ app.get("/", (req, res) => {
   res.render("index", { messages });
 });
 
-app.post("/cities/create", (req, res) => {
-  const { message, auteur } = req.body;
-  messages.push({ message, auteur });
+app.post("/message/create", (req, res) => {
+  const { auteur, titre, description, etat } = req.body;
+  const date_creation = new Date().toLocaleString();
+  messages.push({ auteur, date_creation, titre, description, etat });
+  console.log(messages);
   res.redirect("/");
 });
 app.listen(port, () => {
