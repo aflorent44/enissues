@@ -14,8 +14,9 @@ app.get("/", (req, res) => {
 });
 
 app.post("/cities/create", (req, res) => {
-  const { message, reponse } = req.body;
-  messages.push({ message, reponse });
+  const { auteur, titre, description, etat } = req.body;
+  const dateCreation = new Date().toLocaleString("fr-FR");
+  messages.push({ auteur, dateCreation, titre, description, etat });
   res.redirect("/");
 });
 app.listen(port, () => {
