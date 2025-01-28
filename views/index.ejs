@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulaire EJS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 flex justify-center items-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+      <!-- Liste des messages -->
+      <h2 class="text-xl font-semibold mb-4">Liste des messages et auteurs</h2>
+      <ul class="mb-6 space-y-2">
+        <% if (messages.length > 0) { %> <% messages.forEach(function(message) { %>
+        <li class="border-b border-gray-200 py-2">
+          <span class="font-bold"><%= message.message %></span> - <%= message.auteur
+          %>
+        </li>
+        <% }); %> <% } else { %>
+        <li>Aucun message soumis pour le moment.</li>
+        <% } %>
+      </ul>
+      <h1 class="text-2xl font-bold text-center mb-6">
+        Ajouter un message
+      </h1>
+
+      <form action="/cities/create" method="POST" class="space-y-6">
+        <div>
+          <label for="message" class="block text-lg font-medium text-gray-700"
+            >Message :</label
+          >
+          <input
+            type="text"
+            id="message"
+            name="message"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            placeholder="Entrez votre message"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="auteur" class="block text-lg font-medium text-gray-700"
+            >Votre pseudo</label
+          >
+          <input
+            type="text"
+            id="auteur"
+            name="auteur"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            placeholder="Entrez votre pseudo"
+            required
+          />
+        </div>
+
+        <div class="flex justify-center">
+          <button
+            type="submit"
+            class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            Envoyer
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
