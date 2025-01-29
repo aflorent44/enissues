@@ -15,21 +15,32 @@
         <% if (messages.length > 0) { %> 
           <% messages.forEach(function(message) { %>
             <li class="border-b border-gray-200 py-2">
-              <strong>Un message est composée de :</strong><br />
-              📌 <strong>Auteur</strong> : <%= message.auteur %> <br />
-              📅 <strong>Date de création</strong> : <%= message.dateCreation %> <br />
-              🏷 <strong>Titre</strong> : <%= message.titre %> <br />
-              📝 <strong>Description</strong> : <%= message.description %> <br />
-              ✅ <strong>État</strong> : 
-              <% if (message.etat === 'en-cours') { %>
-                En cours
-              <% } else { %>
-                ✅ Résolu
-              <% } %>
+              <div class="flex justify-between items-start">
+                <div class="flex-grow">
+                  <strong>Un message est composé de :</strong><br />
+                  📌 <strong>Auteur</strong> : <%= message.auteur %> <br />
+                  📅 <strong>Date de création</strong> : <%= message.dateCreation %> <br />
+                  🏷 <strong>Titre</strong> : <%= message.titre %> <br />
+                  📝 <strong>Description</strong> : <%= message.description %> <br />
+                  ✅ <strong>État</strong> : 
+                  <% if (message.etat === 'en-cours') { %>
+                    En cours
+                  <% } else { %>
+                    ✅ Résolu
+                  <% } %>
+                </div>
+                <form action="/messages/delete/<%= message.id %>" method="POST" class="ml-4">
+                  <button type="submit" 
+                          class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                          onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?')">
+                    🗑️ Supprimer
+                  </button>
+                </form>
+              </div>
             </li>
           <% }); %> 
         <% } else { %>
-          <li>Aucune issue/message soumis pour le moment.</li>
+          <li>Aucun message soumis pour le moment.</li>
         <% } %>
       </ul>
 
@@ -38,7 +49,7 @@
         Formulaire de votre message
       </h1>
 
-      <form action="/cities/create" method="POST" class="space-y-6">
+      <form action="/messages/create" method="POST" class="space-y-6">
         <div>
           <label for="auteur" class="block text-lg font-medium text-gray-700">Auteur :</label>
           <input type="text" id="auteur" name="auteur" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required />
