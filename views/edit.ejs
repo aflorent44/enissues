@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modification message</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 class="text-2xl font-bold text-center mb-6">Modifier le message</h1>
+
+        <form action="/messages/edit/<%= message.id %>" method="POST" class="space-y-6">
+            <!-- Champ Auteur -->
+            <div>
+                <label for="auteur" class="block text-lg font-medium text-gray-700">Auteur :</label>
+                <input type="text" id="auteur" name="auteur" value="<%= message.auteur %>"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required />
+            </div>
+
+            <!-- Champ Titre -->
+            <div>
+                <label for="titre" class="block text-lg font-medium text-gray-700">Titre :</label>
+                <input type="text" id="titre" name="titre" value="<%= message.titre %>"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required />
+            </div>
+
+            <!-- Champ Description -->
+            <div>
+                <label for="description" class="block text-lg font-medium text-gray-700">Description :</label>
+                <textarea id="description" name="description"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required><%= message.description %></textarea>
+            </div>
+
+            <!-- Sélection de l'état -->
+            <div>
+                <label for="etat" class="block text-lg font-medium text-gray-700">État :</label>
+                <select id="etat" name="etat" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                    <option value="en cours" <%= message.etat === "en cours" ? "selected" : "" %>>En cours</option>
+                    <option value="resolu" <%= message.etat === "resolu" ? "selected" : "" %>>Résolu</option>
+                </select>
+            </div>
+
+            <!-- Boutons Modifier & Annuler -->
+            <div class="flex justify-between">
+                <a href="/" class="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500">
+                    ❌ Annuler
+                </a>
+                <button type="submit"
+                    class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-700">
+                    ✅ Modifier
+                </button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
