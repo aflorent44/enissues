@@ -6,7 +6,7 @@
     <title>Formulaire EJS</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="bg-gray-100 flex justify-center items-center min-h-screen">
+   <body class="bg-gray-100 flex justify-center items-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       
       <!-- Liste des messages -->
@@ -14,7 +14,7 @@
       <ul class="mb-6 space-y-2">
         <% if (messages.length > 0) { %> 
           <% messages.forEach(function(message) { %>
-            <li class="border-b border-gray-200 py-2">
+            <li class="border-b border-gray-200 py-4 px-2 bg-gray-50 rounded-md shadow">
               <div class="flex justify-between items-start">
                 <div class="flex-grow">
                   <strong>Un message est composé de :</strong><br />
@@ -30,6 +30,10 @@
                   <% } %>
                 </div>
                 <form action="/messages/delete/<%= message.id %>" method="POST" class="ml-4">
+                  <a href="/messages/edit/<%= message.id %>" 
+                     class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                    ✏️ Modifier
+                  </a>
                   <button type="submit" 
                           class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                           onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?')">
