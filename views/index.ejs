@@ -46,11 +46,12 @@
           <li class="text-center py-8 text-gray-500 text-lg">📭 Aucun message soumis pour le moment.</li>
         <% } %>
       </ul>
-    </div>
 
-    <!-- Formulaire -->
-    <div class="bg-white shadow-lg rounded-2xl p-6">
-      <h1 class="text-2xl font-bold text-gray-800 text-center mb-6">✍️ Nouveau message</h1>
+      <!-- Formulaire -->
+      <h1 class="text-2xl font-bold text-center mb-6">
+        Formulaire de votre message
+      </h1>
+
       <form action="/messages/create" method="POST" class="space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -66,11 +67,12 @@
           <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
           <textarea id="description" name="description" rows="4" class="mt-1 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" required></textarea>
         </div>
+
         <div>
-          <label for="etat" class="block text-sm font-medium text-gray-700">État</label>
-          <select id="etat" name="etat" class="mt-1 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
-            <option value="en-cours">En cours</option>
-            <option value="resolu">Résolu</option>
+          <label for="etat" class="block text-lg font-medium text-gray-700">État :</label>
+          <select id="etat" name="etat" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+            <option id="en-cours" value="en-cours">En cours</option>
+            <option id="resolu" value="resolu">Résolu</option>
           </select>
         </div>
         <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium py-3 px-6 rounded-xl shadow-md hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 transform hover:-translate-y-0.5">
