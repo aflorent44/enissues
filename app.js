@@ -1,48 +1,36 @@
 const express = require("express");
-
+const mongoose = require("mongoose");
 const app = express();
 const port = 3000;
 app.set("views", "./views");
 app.set("view engine", "ejs");
+const Message = require("./models/message");
 
+mongoose.connect("mongodb://localhost:27017/enissuesdb");
 app.use(express.urlencoded({ extended: true }));
 
-let messages = [];
-let nextId = 1; //initialisation de nextId qui génère des id uniques
-
 // Route GET qui affiche la page index avec les messages
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+  const messages = await Message.find();
   res.render("index", { messages });
 });
 
+// Formulaire de création
+app.get("/create", (req, res) => {
+  res.render("create");
+});
+
 // Route POST qui gère la création des nouveaux messages
-app.post("/messages/create", (req, res) => {
-  const { auteur, titre, description, etat } = req.body;
-  const dateCreation = new Date().toLocaleString("fr-FR");
-  messages.push({
-    id: nextId++, //ajoute ID unique par msg
-    auteur,
-    dateCreation,
-    titre,
-    description,
-    etat,
-  });
+app.post("/messages/create", async (req, res) => {
+  const newMessage = new Message(req.body);
+  await newMessage.save();
   res.redirect("/");
 });
 
-// Route pour supprimer un message par son ID
-app.post("/messages/delete/:id", (req, res) => {
-  const messageId = Number(req.params.id); //récupère l'id depuis l'url et check que c'est bien un nombre
-  if (!isNaN(messageId)) {
-    messages = messages.filter((message) => message.id !== messageId);
-  }
-  res.redirect("/");
-});
 
 // Route GET pour afficher le formulaire de modif
-app.get("/messages/edit/:id", (req, res) => {
-  const messageId = Number(req.params.id);
-  const message = messages.find((msg) => msg.id === messageId); //cherche le msg avec find()
+app.get("/messages/edit/:id", async (req, res) => {
+  const message = await Message.findById(req.params.id);
   if (!message) {
     return res.status(404).send("Message non trouvé"); //si msg non trouvé renvoi une 404
   }
@@ -50,23 +38,14 @@ app.get("/messages/edit/:id", (req, res) => {
 });
 
 // Route pour modifier un message par son ID
-app.post("/messages/edit/:id", (req, res) => {
-  const messageId = Number(req.params.id);
-  const { auteur, titre, description, etat } = req.body;
-  const messageIndex = messages.findIndex((msg) => msg.id === messageId);
+app.post("/messages/edit/:id", async (req, res) => {
+  await Message.findByIdAndUpdate(req.params.id, req.body);
+  res.redirect("/");
+});
 
-  if (messageIndex === -1) {
-    return res.status(404).send("Message non trouvé");
-  }
-
-  messages[messageIndex] = {
-    ...messages[messageIndex],
-    auteur,
-    titre,
-    description,
-    etat,
-  };
-
+// Route pour supprimer un message par son ID
+app.post("/messages/delete/:id", async (req, res) => {
+  await Message.findByIdAndDelete(req.params.id);
   res.redirect("/");
 });
 
