@@ -6,45 +6,54 @@
     <title>Formulaire EJS</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-   <body class="bg-gray-100 flex justify-center items-center min-h-screen">
+  <body class="bg-gray-100 flex justify-center items-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      
       <!-- Liste des messages -->
       <h2 class="text-xl font-semibold mb-4">Liste des messages et réponses</h2>
       <ul class="mb-6 space-y-2">
-        <% if (messages.length > 0) { %> 
-          <% messages.forEach(function(message) { %>
-            <li class="border-b border-gray-200 py-4 px-2 bg-gray-50 rounded-md shadow">
-              <div class="flex justify-between items-start">
-                <div class="flex-grow">
-                  <strong>Un message est composé de :</strong><br />
-                  📌 <strong>Auteur</strong> : <%= message.auteur %> <br />
-                  📅 <strong>Date de création</strong> : <%= message.dateCreation %> <br />
-                  🏷 <strong>Titre</strong> : <%= message.titre %> <br />
-                  📝 <strong>Description</strong> : <%= message.description %> <br />
-                  ✅ <strong>État</strong> : 
-                  <% if (message.etat === 'en-cours') { %>
-                    En cours
-                  <% } else { %>
-                    ✅ Résolu
-                  <% } %>
-                </div>
-                <form action="/messages/delete/<%= message.id %>" method="POST" class="ml-4">
-                  <a href="/messages/edit/<%= message.id %>" 
-                     class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
-                    ✏️ Modifier
-                  </a>
-                  <button type="submit" 
-                          class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                          onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?')">
-                    🗑️ Supprimer
-                  </button>
-                </form>
-              </div>
-            </li>
-          <% }); %> 
-        <% } else { %>
-          <li>Aucun message soumis pour le moment.</li>
+        <% if (messages.length > 0) { %> <% messages.forEach(function(message) {
+        %>
+        <li
+          class="border-b border-gray-200 py-4 px-2 bg-gray-50 rounded-md shadow"
+        >
+          <div class="flex justify-between items-start">
+            <div class="flex-grow">
+              <strong>Les messages :</strong><br />
+              📌 <strong>Auteur</strong> : <%= message.auteur %> <br />
+              📅 <strong>Date de création</strong> : <%= message.dateCreation.toLocaleString('fr-FR') %> <br />
+              🏷 <strong>Titre</strong> : <%= message.titre %> <br />
+              ✅ <strong>État</strong> : <% if (message.etat === 'en-cours') {
+              %> En cours <% } else { %> ✅ Résolu <% } %>
+            </div>
+            <form
+              action="/messages/delete/<%= message.id %>"
+              method="POST"
+              class="ml-4"
+            >
+              <a
+                href="/messages/details/<%= message.id %>"
+                class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+              >
+                📝 Détails</a
+              >
+              <a
+                href="/messages/edit/<%= message.id %>"
+                class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+              >
+                ✏️ Modifier
+              </a>
+              <button
+                type="submit"
+                class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?')"
+              >
+                🗑️ Supprimer
+              </button>
+            </form>
+          </div>
+        </li>
+        <% }); %> <% } else { %>
+        <li>Aucun message soumis pour le moment.</li>
         <% } %>
       </ul>
 
@@ -55,18 +64,43 @@
 
       <form action="/messages/create" method="POST" class="space-y-6">
         <div>
-          <label for="auteur" class="block text-lg font-medium text-gray-700">Auteur :</label>
-          <input type="text" id="auteur" name="auteur" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required />
+          <label for="auteur" class="block text-lg font-medium text-gray-700"
+            >Auteur :</label
+          >
+          <input
+            type="text"
+            id="auteur"
+            name="auteur"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+            required
+          />
         </div>
 
         <div>
-          <label for="titre" class="block text-lg font-medium text-gray-700">Titre :</label>
-          <input type="text" id="titre" name="titre" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required />
+          <label for="titre" class="block text-lg font-medium text-gray-700"
+            >Titre :</label
+          >
+          <input
+            type="text"
+            id="titre"
+            name="titre"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+            required
+          />
         </div>
 
         <div>
-          <label for="description" class="block text-lg font-medium text-gray-700">Description :</label>
-          <textarea id="description" name="description" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea>
+          <label
+            for="description"
+            class="block text-lg font-medium text-gray-700"
+            >Description :</label
+          >
+          <textarea
+            id="description"
+            name="description"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+            required
+          ></textarea>
         </div>
 
         <div>
@@ -78,7 +112,10 @@
         </div>
 
         <div class="flex justify-center">
-          <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-700">
+          <button
+            type="submit"
+            class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-700"
+          >
             Envoyer
           </button>
         </div>
