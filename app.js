@@ -5,8 +5,8 @@ const port = 3000;
 app.set("views", "./views");
 app.set("view engine", "ejs");
 const Message = require("./models/message");
-
-mongoose.connect("mongodb://localhost:27017/enissuesdb");
+require("dotenv").config();
+mongoose.connect(process.env.DBURL);
 app.use(express.urlencoded({ extended: true }));
 
 // Route GET qui affiche la page index avec les messages
