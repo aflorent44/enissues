@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 //import du modèle mongodb
-const Message = require("../models/Message");
+const Message = require("../models/message");
 //lien avec mongodb
 mongoose.connect("mongodb://localhost:27017/enissuesdb");
 

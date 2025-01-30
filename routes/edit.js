@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-const Message = require("../models/Message");
+const Message = require("../models/message");
 
 mongoose.connect("mongodb://localhost:27017/enissuesdb");
 
