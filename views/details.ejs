@@ -1,37 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Détails message</title>
+    <title>Détails du message</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <div class="flex justify-between items-start">
-      <div class="flex-grow">
-        <strong>Les détails du message :</strong><br />
-        📌 <strong>Auteur</strong> : <%= message.auteur %> <br />
-                     📅 <strong>Date de création</strong> : <%= message.dateCreation.toLocaleString('fr-FR') %> <br />
-        🏷 <strong>Titre</strong> : <%= message.titre %> <br />
-        📝 <strong>Description</strong> : <%= message.description %> <br />
-        ✅ <strong>État</strong> : <% if (message.etat === 'en-cours') { %> En
-        cours <% } else { %> ✅ Résolu <% } %>
-      </div>
-      <form
-        action="/messages/delete/<%= message.id %>"
-        method="POST"
-        class="ml-4">
+  <body
+    class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen py-8 px-4"
+  >
+    <div class="max-w-4xl mx-auto">
+      <div class="bg-white rounded-xl shadow-lg p-8">
+        <!-- En-tête -->
+        <h1 class="text-2xl font-bold text-gray-800 mb-8 flex items-center">
+          <span class="mr-2">📋</span> Détails du message
+        </h1>
+
+        <!-- Contenu principal -->
+        <div class="space-y-8">
+          <!-- Informations du message -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Colonne gauche -->
+            <div class="space-y-4">
+              <div class="space-y-2">
+                <p class="text-sm text-gray-500">Auteur</p>
+                <p class="text-lg font-medium text-gray-800 flex items-center">
+                  <span class="mr-2">👤</span>
+                  <%= message.auteur %>
+                </p>
+              </div>
+
+              <div class="space-y-2">
+                <p class="text-sm text-gray-500">Date de création</p>
+                <p class="text-lg text-gray-800 flex items-center">
+                  <span class="mr-2">📅</span>
+                  <%= message.dateCreation.toLocaleString('fr-FR') %>
+                </p>
+              </div>
+
+              <div class="space-y-2">
+                <p class="text-sm text-gray-500">Titre</p>
+                <p class="text-lg font-medium text-gray-800 flex items-center">
+                  <span class="mr-2">🏷</span>
+                  <%= message.titre %>
+                </p>
+              </div>
+            </div>
+
+            <!-- Colonne droite -->
+            <div class="space-y-4">
+              <div class="space-y-2">
+                <p class="text-sm text-gray-500">État</p>
+                <div>
+                  <% if (message.etat === 'en-cours') { %>
+                  <span
+                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800"
+                  >
+                    <span class="mr-1">⏳</span> En cours
+                  </span>
+                  <% } else { %>
+                  <span
+                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-green-100 text-green-800"
+                  >
+                    <span class="mr-1">✅</span> Résolu
+                  </span>
+                  <% } %>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="flex flex-col sm:flex-row gap-3 mt-6">
                 <a
-          href="/messages/edit/<%= message.id %>"
-          class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600" >
-          ✏️ Modifier</a>
-        <button
-          type="submit"
-          class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-          onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?')" >
-          🗑️ Supprimer
-        </button>
-      </form>
+                  href="/messages/edit/<%= message.id %>"
+                  class="inline-flex items-center justify-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200"
+                >
+                  <span class="mr-2">✏️</span> Modifier
+                </a>
+                <form
+                  action="/messages/delete/<%= message.id %>"
+                  method="POST"
+                  class="inline"
+                >
+                  <button
+                    type="submit"
+                    class="inline-flex items-center justify-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
+                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?')"
+                  >
+                    <span class="mr-2">🗑️</span> Supprimer
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="border-t pt-6">
+            <p class="text-sm text-gray-500 mb-2">Description</p>
+            <div class="bg-gray-50 rounded-lg p-6 border border-gray-100">
+              <p class="text-gray-800 whitespace-pre-wrap">
+                <%= message.description %>
+              </p>
+            </div>
+          </div>
+
+          <!-- Bouton retour -->
+          <div class="mt-8">
+            <a
+              href="/"
+              class="inline-flex items-center justify-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200"
+            >
+              <span class="mr-2">←</span> Retour à la liste
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

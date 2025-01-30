@@ -1,131 +1,83 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Formulaire EJS</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-gray-100 flex justify-center items-center min-h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      <!-- Liste des messages -->
-      <h2 class="text-xl font-semibold mb-4">Liste des messages et réponses</h2>
-      <ul class="mb-6 space-y-2">
-        <% if (messages.length > 0) { %> <% messages.forEach(function(message) {
-        %>
-        <li
-          class="border-b border-gray-200 py-4 px-2 bg-gray-50 rounded-md shadow"
-        >
-          <div class="flex justify-between items-start">
-            <div class="flex-grow">
-              <strong>Les messages :</strong><br />
-              📌 <strong>Auteur</strong> : <%= message.auteur %> <br />
-              📅 <strong>Date de création</strong> : <%= message.dateCreation.toLocaleString('fr-FR') %> <br />
-              🏷 <strong>Titre</strong> : <%= message.titre %> <br />
-              ✅ <strong>État</strong> : <% if (message.etat === 'en-cours') {
-              %> En cours <% } else { %> ✅ Résolu <% } %>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulaire EJS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center py-10 px-4">
+  <div class="max-w-4xl w-full space-y-8">
+    <!-- Liste des messages -->
+    <div class="bg-white shadow-lg rounded-2xl p-6">
+      <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2 mb-6">
+        📋 Liste des messages
+      </h2>
+      <ul class="space-y-4">
+        <% if (messages.length > 0) { %>
+          <% messages.forEach(function(message) { %>
+          <li class="bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-lg transition duration-200">
+            <div class="flex flex-col md:flex-row md:justify-between gap-4">
+              <div class="space-y-2">
+                <p class="font-medium text-gray-800 flex items-center gap-2">👤 <%= message.auteur %></p>
+                <p class="text-sm text-gray-600 flex items-center gap-2">📅 <%= message.dateCreation.toLocaleString('fr-FR') %></p>
+                <h3 class="text-lg font-semibold text-gray-800 flex items-center gap-2">📝 <%= message.titre %></h3>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <%= message.etat === 'en-cours' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800' %>">
+                  <%= message.etat === 'en-cours' ? '⏳ En cours' : '✅ Résolu' %>
+                </span>
+              </div>
+              <div class="flex w-full md:w-auto gap-2">
+                <button onclick="window.location.href='/messages/details/<%= message.id %>'" class="flex-1 px-6 py-3 text-lg font-medium bg-blue-600 text-white rounded-xl shadow-md hover:bg-blue-700 transition-all duration-200">
+                  👁️ Détails
+                </button>
+                <button onclick="window.location.href='/messages/edit/<%= message.id %>'" class="flex-1 px-6 py-3 text-lg font-medium bg-indigo-600 text-white rounded-xl shadow-md hover:bg-indigo-700 transition-all duration-200">
+                  ✏️ Modifier
+                </button>
+                <form action="/messages/delete/<%= message.id %>" method="POST" class="flex-1">
+                  <button type="submit" class="w-full px-6 py-3 text-lg font-medium bg-red-600 text-white rounded-xl shadow-md hover:bg-red-700 transition-all duration-200" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?')">
+                    🗑️ Supprimer
+                  </button>
+                </form>
+              </div>
             </div>
-            <form
-              action="/messages/delete/<%= message.id %>"
-              method="POST"
-              class="ml-4"
-            >
-              <a
-                href="/messages/details/<%= message.id %>"
-                class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-              >
-                📝 Détails</a
-              >
-              <a
-                href="/messages/edit/<%= message.id %>"
-                class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-              >
-                ✏️ Modifier
-              </a>
-              <button
-                type="submit"
-                class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?')"
-              >
-                🗑️ Supprimer
-              </button>
-            </form>
-          </div>
-        </li>
-        <% }); %> <% } else { %>
-        <li>Aucun message soumis pour le moment.</li>
+          </li>
+          <% }); %>
+        <% } else { %>
+          <li class="text-center py-8 text-gray-500 text-lg">📭 Aucun message soumis pour le moment.</li>
         <% } %>
       </ul>
+    </div>
 
-      <!-- Formulaire -->
-      <h1 class="text-2xl font-bold text-center mb-6">
-        Formulaire de votre message
-      </h1>
-
+    <!-- Formulaire -->
+    <div class="bg-white shadow-lg rounded-2xl p-6">
+      <h1 class="text-2xl font-bold text-gray-800 text-center mb-6">✍️ Nouveau message</h1>
       <form action="/messages/create" method="POST" class="space-y-6">
-        <div>
-          <label for="auteur" class="block text-lg font-medium text-gray-700"
-            >Auteur :</label
-          >
-          <input
-            type="text"
-            id="auteur"
-            name="auteur"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            required
-          />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="auteur" class="block text-sm font-medium text-gray-700">Auteur</label>
+            <input type="text" id="auteur" name="auteur" class="mt-1 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" required>
+          </div>
+          <div>
+            <label for="titre" class="block text-sm font-medium text-gray-700">Titre</label>
+            <input type="text" id="titre" name="titre" class="mt-1 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" required>
+          </div>
         </div>
-
         <div>
-          <label for="titre" class="block text-lg font-medium text-gray-700"
-            >Titre :</label
-          >
-          <input
-            type="text"
-            id="titre"
-            name="titre"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            required
-          />
+          <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+          <textarea id="description" name="description" rows="4" class="mt-1 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" required></textarea>
         </div>
-
         <div>
-          <label
-            for="description"
-            class="block text-lg font-medium text-gray-700"
-            >Description :</label
-          >
-          <textarea
-            id="description"
-            name="description"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            required
-          ></textarea>
-        </div>
-
-        <div>
-          <label for="etat" class="block text-lg font-medium text-gray-700"
-            >État :</label
-          >
-          <select
-            id="etat"
-            name="etat"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-          >
+          <label for="etat" class="block text-sm font-medium text-gray-700">État</label>
+          <select id="etat" name="etat" class="mt-1 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
             <option value="en-cours">En cours</option>
             <option value="resolu">Résolu</option>
           </select>
         </div>
-
-        <div class="flex justify-center">
-          <button
-            type="submit"
-            class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-700"
-          >
-            Envoyer
-          </button>
-        </div>
+        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium py-3 px-6 rounded-xl shadow-md hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 transform hover:-translate-y-0.5">
+          🚀 Envoyer le message
+        </button>
       </form>
     </div>
-  </body>
+  </div>
+</body>
 </html>
